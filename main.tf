@@ -2,7 +2,7 @@
 # IBM Cloud Provider
 ##############################################################################
 # See the README for details on ways to supply these values
-provider "ibmcloud" {
+provider "ibm" {
   softlayer_username           = "${var.softlayer_username}"
   softlayer_api_key = "${var.softlayer_api_key}"
 }
@@ -10,7 +10,7 @@ provider "ibmcloud" {
 ##############################################################################
 # IBM SSH Key: For connecting to VMs
 ##############################################################################
-resource "ibmcloud_infra_ssh_key" "ssh_key" {
+resource "ibm_compute_ssh_key" "ssh_key" {
   label = "${var.key_label}"
   notes = "${var.key_note}"
   # Public key, so this is completely safe
@@ -20,23 +20,16 @@ resource "ibmcloud_infra_ssh_key" "ssh_key" {
 ##############################################################################
 # Variables
 ##############################################################################
+
 # Required for the IBM Cloud provider
-variable ibmid {
+variable softlayer_username {
   type = "string"
-  description = "Your IBM-ID."
-}
-# Required for the IBM Cloud provider
-variable softlayer_api_key {
-  type = "string"
-  description = "The password for your IBM-ID."
+  description = "The Softlayer Username"
 }
 # Required to target the correct SL account
 variable softlayer_api_key {
   type = "string"
-  description = "Your Softlayer account number."
-}
-variable datacenter {
-  description = "The datacenter to create resources in."
+  description = "The Softlayer API Key"
 }
 variable public_key {
   description = "Your public SSH key material."
@@ -52,5 +45,5 @@ variable key_note {
 # Outputs
 ##############################################################################
 output "ssh_key_id" {
-  value = "${ibmcloud_infra_ssh_key.ssh_key.id}"
+  value = "${ibm_compute_ssh_key.ssh_key.id}"
 }
